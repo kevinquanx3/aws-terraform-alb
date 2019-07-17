@@ -2,7 +2,7 @@
 # Locals
 ###############################################################################
 locals {
-  acm_certificate_arn = "arn:aws:acm:ap-southeast-1:123456789012:certificate/62b14545-0608-4b1f-b0c4-81b4452dde3e"
+  acm_certificate_arn = "arn:aws:acm:ap-southeast-1:626499166183:certificate/62b14545-0608-4b1f-b0c4-81b4452dde3e"
 }
 
 ###############################################################################
@@ -11,7 +11,7 @@ locals {
 ###############################################################################
 
 module "alb" {
-  source          = "git@github.com:rackspace-infrastructure-automation/aws-terraform-alb//?ref=tf_0.12-upgrade"
+  source          = "github.com/rackspace-infrastructure-automation/aws-terraform-alb//?ref=tf_0.12-upgrade"
   alb_name        = "alb-tf-012-demo"
   security_groups = [local.PublicWebSecurityGroup]
   subnets         = local.public_subnets
@@ -57,26 +57,20 @@ module "alb" {
 
   alb_tags = {
     Name            = "alb"
-    Environment     = "${var.environment}"
+    Environment     = var.environment
     ServiceProvider = "Rackspace"
   }
 }
 
-output "target_group_arns" {
-  value       = "${module.alb.target_group_arns}"
-  description = "target group arns"
-}
-
-output "alb_dns_name" {
-  value       = "${module.alb.alb_dns_name}"
-  description = "alb dns name"
+output "alb" {
+  value       = module.alb
+  description = "ALB"
 }
 
 ###############################################################################
 # Locals
 ###############################################################################
 locals {
-  target_group_arns = "${module.alb.target_group_arns}"
-  alb_dns_name      = "${module.alb.alb_dns_name}"
+  alb_dns_name      = module.alb.alb_dns_name
+  target_group_arns = module.alb.target_group_arns
 }
-

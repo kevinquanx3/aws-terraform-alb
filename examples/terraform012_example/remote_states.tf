@@ -17,12 +17,11 @@ data "terraform_remote_state" "base_network" {
 # Locals
 ###############################################################################
 locals {
-  vpc_id                  = data.terraform_remote_state.base_network.outputs.base_network_vpc_id
-  private_subnets         = data.terraform_remote_state.base_network.outputs.base_network_private_subnets
-  public_subnets          = data.terraform_remote_state.base_network.outputs.base_network_public_subnets
-  PrivateAZ1              = data.terraform_remote_state.base_network.outputs.PrivateAZ1
-  PrivateAZ2              = data.terraform_remote_state.base_network.outputs.PrivateAZ2
-  PublicAZ1               = data.terraform_remote_state.base_network.outputs.PublicAZ1
-  PublicAZ2               = data.terraform_remote_state.base_network.outputs.PublicAZ2
+  vpc_id                  = data.terraform_remote_state.base_network.outputs.base_network.vpc_id
+  private_subnets         = data.terraform_remote_state.base_network.outputs.base_network.private_subnets
+  public_subnets          = data.terraform_remote_state.base_network.outputs.base_network.public_subnets
+  PrivateAZ1              = data.terraform_remote_state.base_network.outputs.base_network.private_subnets[0]
+  PrivateAZ2              = data.terraform_remote_state.base_network.outputs.base_network.private_subnets[1]
+  PublicAZ1               = data.terraform_remote_state.base_network.outputs.base_network.public_subnets[0]
+  PublicAZ2               = data.terraform_remote_state.base_network.outputs.base_network.public_subnets[1]
 }
-

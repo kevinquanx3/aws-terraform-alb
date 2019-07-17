@@ -2,7 +2,7 @@
 # Providers
 ###############################################################################
 provider "aws" {
-  version             = "~> 2.8.0"
+  version             = "~> 2.0"
   region              = var.region
   allowed_account_ids = [var.aws_account_id]
 }
