@@ -33,12 +33,6 @@ variable "enable_http2" {
   default     = true
 }
 
-variable "enable_https_redirect" {
-  description = "If true and at least one HTTP and one HTTPS listener is created, HTTP listeners will have a redirect rule created to forward all traffic to the first HTTPS listener."
-  type        = "string"
-  default     = false
-}
-
 variable "environment" {
   description = "Application environment for which this network is being created. one of: ('Development', 'Integration', 'PreProduction', 'Production', 'QA', 'Staging', 'Test')"
   type        = "string"
@@ -145,22 +139,22 @@ variable "logging_bucket_retention" {
   default     = 14
 }
 
-variable "notification_topic" {
-  description = "List of SNS Topic ARNs to use for customer notifications."
-  type        = "list"
-  default     = []
-}
-
 variable "rackspace_managed" {
   description = "Boolean parameter controlling if instance will be fully managed by Rackspace support teams, created CloudWatch alarms that generate tickets, and utilize Rackspace managed SSM documents."
   type        = "string"
   default     = true
 }
 
-variable "rackspace_alarms_enabled" {
-  description = "Specifies whether alarms will create a Rackspace ticket.  Ignored if rackspace_managed is set to false."
-  type        = "string"
-  default     = false
+variable "custom_alarm_sns_topic" {
+  description = "If not using `rackspace_managed` set to a custom SNS topic ARN for alarms."
+  type        = "list"
+  default     = []
+}
+
+variable "custom_ok_sns_topic" {
+  description = "If not using `rackspace_managed` set to a custom SNS topic ARN for alarm clearance. Most likely the same as the alarm to clear the alarm."
+  type        = "list"
+  default     = []
 }
 
 variable "register_instance_targets_count" {
@@ -234,8 +228,6 @@ variable "target_groups_defaults" {
     "health_check_unhealthy_threshold" = 2
 
     "stickiness_enabled" = false
-
-    "slow_start" = 0
 
     "target_type" = "instance"
   }]
