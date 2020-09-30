@@ -47,15 +47,15 @@ locals {
   environment = "${contains(local.env_list, var.environment) ? var.environment:"Development"}"
 
   default_tags = {
-    ServiceProvider = "Rackspace"
+    ServiceProvider = "Sage"
     Environment     = "${local.environment}"
   }
 
   merged_tags = "${merge(local.default_tags, var.alb_tags)}"
 
-  sns_topic = "arn:aws:sns:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:rackspace-support-emergency"
+  sns_topic = "arn:aws:sns:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:lsm-support-emergency"
 
-  alarm_action_config = "${var.rackspace_managed ? "managed":"unmanaged"}"
+  alarm_action_config = "${var.lsm_managed ? "managed":"unmanaged"}"
 
   alarm_actions = {
     managed = ["${local.sns_topic}"]
@@ -63,7 +63,7 @@ locals {
     unmanaged = "${var.custom_alarm_sns_topic}"
   }
 
-  ok_action_config = "${var.rackspace_managed ? "managed":"unmanaged"}"
+  ok_action_config = "${var.lsm_managed ? "managed":"unmanaged"}"
 
   ok_actions = {
     managed = ["${local.sns_topic}"]
